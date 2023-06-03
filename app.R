@@ -3,7 +3,7 @@ library(tidyverse)
 library(nycflights13)
 library(bslib)
 
-data <- flights %>% filter(month == 1)
+data <- flights %>% filter(month == 6)
 min_dist <- min(data$distance, na.rm = TRUE)
 max_dist <- max(data$distance, na.rm = TRUE)
 
@@ -19,8 +19,9 @@ ui <- fluidPage(
                          choices = c("EWR", "LGA", "JFK"),
                          selected = c("EWR", "LGA", "JFK")),
       
-      checkboxInput("include_delayed", "Include Delayed Flights",
-                    value = TRUE),
+      checkboxGroupInput("dest_airport", "Major Domestic Airports:",
+                         choices = c("ORD", "ATL", "LAX", "BOS", "SFO"),
+                         selected =  c()),
       
       dateRangeInput("date_range", "Date Range:", 
                      start = "2013-01-01", end = "2013-01-31",
@@ -45,9 +46,9 @@ ui <- fluidPage(
 server <- function(input, output) {
   filtered_data <- reactive({
     filtering <- data %>% filter(origin %in% input$NY_airport)
-    if (input$include_delayed) {}
-    else {
-      filtering <- filtering %>% filter(dep_delay <= 0)
+    if(is.null(input$dest_airport)) {}
+    else{
+      filtering <- data %>% filter(dest %in% input$dest_airport)
     }
     filtering <- filtering %>% filter(day >= as.integer(str_sub(input$date_range[1], 9, 10)),
                                       day <= as.integer(str_sub(input$date_range[2], 9, 10)))
