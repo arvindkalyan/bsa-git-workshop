@@ -19,10 +19,6 @@ ui <- fluidPage(
                          choices = c("EWR", "LGA", "JFK"),
                          selected = c("EWR", "LGA", "JFK")),
       
-      checkboxGroupInput("dest_airport", "Major Domestic Airports:",
-                         choices = c("ORD", "ATL", "LAX", "BOS", "SFO"),
-                         selected =  c()),
-      
       dateRangeInput("date_range", "Date Range:", 
                      start = "2013-01-01", end = "2013-01-31",
                      min = "2013-01-01", max = "2013-01-31"),
@@ -46,10 +42,6 @@ ui <- fluidPage(
 server <- function(input, output) {
   filtered_data <- reactive({
     filtering <- data %>% filter(origin %in% input$NY_airport)
-    if(is.null(input$dest_airport)) {}
-    else{
-      filtering <- data %>% filter(dest %in% input$dest_airport)
-    }
     filtering <- filtering %>% filter(day >= as.integer(str_sub(input$date_range[1], 9, 10)),
                                       day <= as.integer(str_sub(input$date_range[2], 9, 10)))
     filtering <- filtering %>% filter(distance >= input$distance[1],
