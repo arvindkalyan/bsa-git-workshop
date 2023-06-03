@@ -19,7 +19,7 @@ ui <- fluidPage(
                          choices = c("EWR", "LGA", "JFK"),
                          selected = c("EWR", "LGA", "JFK")),
       
-      checkboxGroupInput("dest_airport", "Major Domestic Airports:",
+      checkboxGroupInput("dest_airport", "Seven Major Domestic Airports:",
                          choices = c("ORD", "ATL", "LAX", "BOS", "SFO", "MIA", "PHX"),
                          selected =  c()),
       
