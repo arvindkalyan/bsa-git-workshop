@@ -23,6 +23,9 @@ ui <- fluidPage(
                          choices = c("ORD", "ATL", "LAX", "BOS", "SFO", "MIA", "PHX"),
                          selected =  c()),
       
+      checkboxInput("include_delayed", "Include Delayed Flights",
+                    value = TRUE),
+      
       dateRangeInput("date_range", "Date Range:", 
                      start = "2013-06-01", end = "2013-06-30",
                      min = "2013-06-01", max = "2013-06-30"),
@@ -46,6 +49,10 @@ ui <- fluidPage(
 server <- function(input, output) {
   filtered_data <- reactive({
     filtering <- data %>% filter(origin %in% input$NY_airport)
+    if (input$include_delayed) {}
+    else {
+      filtering <- filtering %>% filter(dep_delay <= 0)
+    }
     filtering <- filtering %>% filter(day >= as.integer(str_sub(input$date_range[1], 9, 10)),
                                       day <= as.integer(str_sub(input$date_range[2], 9, 10)))
     filtering <- filtering %>% filter(distance >= input$distance[1],
