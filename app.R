@@ -20,12 +20,12 @@ ui <- fluidPage(
                          selected = c("EWR", "LGA", "JFK")),
       
       checkboxGroupInput("dest_airport", "Major Domestic Airports:",
-                         choices = c("ORD", "ATL", "LAX", "BOS", "SFO"),
+                         choices = c("ORD", "ATL", "LAX", "BOS", "SFO", "MIA", "PHX"),
                          selected =  c()),
       
       dateRangeInput("date_range", "Date Range:", 
-                     start = "2013-01-01", end = "2013-01-31",
-                     min = "2013-01-01", max = "2013-01-31"),
+                     start = "2013-06-01", end = "2013-06-30",
+                     min = "2013-06-01", max = "2013-06-30"),
       
       sliderInput("distance", "Flight Distance:",
                   min = min_dist, max = max_dist,
@@ -33,7 +33,7 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      h3("Data from January of 2013"),
+      h3("Data from June of 2013"),
       
       plotOutput("flights_per_day"),
       plotOutput("top_dest"),
@@ -64,7 +64,7 @@ server <- function(input, output) {
       summarize(total_flights = n()) %>%
       ggplot(aes(x = day, y = total_flights, group = origin, color = origin)) +
       geom_line() +
-      labs(x = "Day in January", y = "Number of Flights", title = "Flights by Day and Origin")
+      labs(x = "Day in June", y = "Number of Flights", title = "Flights by Day and Origin")
   })
   
   output$top_dest <- renderPlot({
